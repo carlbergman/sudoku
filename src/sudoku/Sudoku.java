@@ -49,5 +49,26 @@ public class Sudoku {
 		}
 		return sb.toString();
 	}
+	
+	private boolean solve(int i, int j){
+		
+		//getValue från i,j
+		//kolla om cellen är ifylld av användaren
+		//ifylld: checka giltighet (rad, kolumn, ruta) returnera falskt om ogiltig, annars gå vidare
+		//ej ifylld: fyll med 1-9. Checka giltighet. Om giltig, gör rekursivt anrop till nästa cell.
+		int v=getValue(i,j);
+		if(v!=0){
+			
+		}
+		
+		
+		return false;
+	}
+	
+	private boolean valid(int i,int j, int value){
+		
+		
+		return false;
+	}
 
 }
