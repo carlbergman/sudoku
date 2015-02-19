@@ -35,6 +35,9 @@ public class Sudoku {
 		return board[i][j];
 	}
 	
+	/**
+	 * String representation of the class
+	 */	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		
