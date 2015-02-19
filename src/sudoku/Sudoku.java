@@ -84,6 +84,9 @@ public class Sudoku {
 				return false;
 			}
 		} else {
+			/*
+			Måste hitta annat sätt att öka k!
+			*/
 			for (int k = 1; k <= 9; k++) {
 				if (valid(row, col, k)) {
 					if (row < 8 && col < 8) {
