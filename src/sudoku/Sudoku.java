@@ -61,7 +61,7 @@ public class Sudoku {
 		return solve(0,0);
 	}
 
-	private boolean solve(int i, int j) {
+	private boolean solve(int row, int col) {
 
 		// getValue från i,j
 		// kolla om cellen är ifylld av användaren
@@ -69,32 +69,34 @@ public class Sudoku {
 		// ogiltig, annars gå vidare
 		// ej ifylld: fyll med 1-9. Checka giltighet. Om giltig, gör rekursivt
 		// anrop till nästa cell.
-		int v = getValue(i, j);
+		int v = getValue(row, col);
 		if (v != 0) {
-			if (valid(i, j, v)) {
-				if (i < 8 && j < 8) {
-					return solve(i, j + 1);
-				} else if (i < 8 && j == 8) {
-					return solve(i + 1, 0);
+			if (valid(row, col, v)) {
+				if (row < 8 && col < 8) {
+					return solve(row, col + 1);
+				} else if (row < 8 && col == 8) {
+					return solve(row + 1, 0);
 				} else {
 					return true;
 				}
 			} else {
+				setValue(row,col,0);
 				return false;
 			}
 		} else {
 			for (int k = 1; k <= 9; k++) {
-				if (valid(i, j, k)) {
-					if (i < 8 && j < 8) {
-						setValue(i,j,k);
-						return solve(i, j + 1);
-					} else if (i < 8 && j == 8) {
-						setValue(i,j,k);
-						return solve(i + 1, 0);
+				if (valid(row, col, k)) {
+					if (row < 8 && col < 8) {
+						setValue(row,col,k);
+						return solve(row, col + 1);
+					} else if (row < 8 && col == 8) {
+						setValue(row,col,k);
+						return solve(row + 1, 0);
 					} else {
 						return true;
 					}
 				}else{
+					setValue(row,col,0);
 					return false;
 				}
 			}
