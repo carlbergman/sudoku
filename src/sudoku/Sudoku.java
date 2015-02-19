@@ -9,6 +9,7 @@ public class Sudoku {
 		setValue(0,0,1);
 		setValue(4,4,5);
 		setValue(2,1,9);
+		setValue(2,8,2);
 	}
 	
 	/**
