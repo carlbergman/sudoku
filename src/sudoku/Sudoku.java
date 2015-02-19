@@ -6,11 +6,11 @@ public class Sudoku {
 	public Sudoku() {
 		this.board = new int[9][9];
 
-		setValue(0, 0, 1);
-		setValue(4, 4, 5);
-		setValue(2, 1, 9);
-		setValue(2, 8, 2);
-		setValue(1, 4, 9);
+		setValue(0,0,1);
+		setValue(0,1,2);
+		setValue(5,6,5);
+		
+		valid(5,5, getValue(0,0));
 	}
 
 	/**
@@ -102,9 +102,58 @@ public class Sudoku {
 		return false;
 	}
 
-	private boolean valid(int i, int j, int value) {
-
+	private boolean valid (int i, int j, int value) {
+		int[][] set = getSetToCheck(i, j, value);
+			
+		System.out.print("Row: ");
+		for (int a = 0; a < 8; a++) {
+			System.out.print(set[0][a] + " ");
+		}
+		System.out.print("\n");
+		
+		System.out.print("Col: ");
+		for (int a = 0; a < 8; a++) {
+			System.out.print(set[1][a] + " ");
+		}
+		System.out.print("\n");
+		
+		System.out.print("Box: ");
+		for (int a = 0; a < 8; a++) {
+			System.out.print(set[2][a] + " ");
+		}
+		System.out.print("\n");
+					
 		return false;
+	}
+	
+	private int[][] getSetToCheck (int row, int col, int value) {
+		
+		System.out.println(row + ", " + col);
+		
+		int[][] set = new int[3][9];
+		set[0] = new int[9];
+		set[1] = new int[9];
+		set[2] = new int[9];
+		
+		// Get the row array
+		for (int c = 0; c < 8; c++) {
+			set[0][c] = board[row][c];
+		}
+		
+		// Get the column array
+		for (int r = 0; r < 8; r++) {
+			set[1][r] = board[r][col];
+		}
+		
+		// Get the box array
+		for (int r = 0; r < 3; r++) {
+			for (int c = 0; c < 3; c++) {
+				set[2][c + r*3] = board[row/3 + r][col/3 + c];
+			}
+		}
+		
+		return set;
+		
 	}
 
 }
