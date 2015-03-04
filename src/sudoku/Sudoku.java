@@ -8,19 +8,19 @@ public class Sudoku {
 	public Sudoku() {
 		this.board = new int[9][9];
 
-//		 setValue(0, 0, 1);
-//		 setValue(0, 1, 2);
-//		 setValue(0, 2, 3);
-//		 setValue(1, 0, 5);
-//		 setValue(1, 1, 5);
-//		 setValue(1, 2, 6);
-//		 setValue(2, 0, 7);
-//		 setValue(2, 1, 8);
-//		 setValue(2, 2, 9);
-//		 setValue(0, 3, 1);
-//		 setValue(0, 3, 4);
-//		 setValue(7, 0, 8);
-//		 setValue(8, 2, 9);
+		 setValue(0, 0, 1);
+		 setValue(0, 1, 2);
+		 setValue(0, 2, 3);
+		 setValue(1, 0, 5);
+		 //setValue(1, 1, 5);
+		 setValue(1, 2, 6);
+		 setValue(2, 0, 7);
+		 setValue(2, 1, 8);
+		 setValue(2, 2, 9);
+		 setValue(0, 3, 1);
+		 setValue(0, 3, 4);
+		 setValue(7, 0, 8);
+		 setValue(8, 2, 9);
 	}
 
 	/**
@@ -87,15 +87,17 @@ public class Sudoku {
 			setValue(row, col, 0);
 			if (valid(row, col, v)) {
 				setValue(row, col, v);
-				if (row < 8 && col < 8) {
+				if (col < 8) {
 					solveReturn = solve(row, col + 1);
-				} else if (row < 8 && col == 8) {
+				} else if (row < 8) {
 					solveReturn = solve(row + 1, 0);
 				} else {
+					solved=true;
 					solveReturn = true;
 				}
 			} else {
-				solveReturn = false;
+				solved=true;
+				return false;
 			}
 		} else {
 			for (int val = 1; val <= 9; val++) {
