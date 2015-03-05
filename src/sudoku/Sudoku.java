@@ -3,18 +3,36 @@ package sudoku;
 public class Sudoku {
 	int[][] board;
 	int counter = 0;
-	boolean solved=false;
+	//boolean solved = false;
 
 	public Sudoku() {
 		this.board = new int[9][9];
-		setValue(0,0,1);
-		setValue(0,1,2);
-		setValue(0,2,3);
-		setValue(1,0,4);
-		setValue(1,1,5);
-		setValue(1,2,6);
-		setValue(2,3,7);
-		 
+		setValue(0, 2, 8);
+		setValue(0, 5, 9);
+		setValue(0, 7, 6);
+		setValue(0, 8, 2);
+		setValue(1, 8, 5);
+		setValue(2, 0, 1);
+		setValue(2, 2, 2);
+		setValue(2, 3, 5);
+		setValue(3, 3, 2);
+		setValue(3, 4, 1);
+		setValue(3, 7, 9);
+		setValue(4, 1, 5);
+		setValue(4, 6, 6);
+		setValue(5, 0, 6);
+		setValue(5, 7, 2);
+		setValue(5, 8, 8);
+		setValue(6, 0, 4);
+		setValue(6, 1, 1);
+		setValue(6, 3, 6);
+		setValue(6, 5, 8);
+		setValue(7, 0, 8);
+		setValue(7, 1, 6);
+		setValue(7, 4, 3);
+		setValue(7, 6, 1);
+		setValue(8, 6, 4);
+
 	}
 
 	/**
@@ -65,59 +83,52 @@ public class Sudoku {
 	}
 
 	public boolean solve() {
+		// Check valid sudoku
+		if (!validSudoku(0, 0))
+			return false;
+
 		return solve(0, 0);
 	}
 
 	private boolean solve(int row, int col) {
-//		System.out.println(counter);
-//		counter++;
-//		if(counter==200){
-//			System.out.println("Finally...");
-//		}
-		boolean solveReturn = false;
-
+		if (row == 9) {
+			return true;
+		}
 		int v = getValue(row, col);
 		if (v != 0) {
-			setValue(row, col, 0);
-			if (valid(row, col, v)) {
-				setValue(row, col, v);
-				if (col < 8) {
-					solveReturn = solve(row, col + 1);
-				} else if (row < 8) {
-					solveReturn = solve(row + 1, 0);
-				} else {
-					solved=true;
-					return true;
-				}
-			} else {
-				solved=true;
-				return false;
-			}
+			if (solve(col == 8 ? row + 1 : row, (col + 1) % 9))
+				return true;
 		} else {
 			for (int val = 1; val <= 9; val++) {
-				if(solved==true)
-					break;
 				if (valid(row, col, val)) {
-					if (col < 8) {
-						setValue(row, col, val);
-						solveReturn = solve(row, col + 1);
-					} else if (row < 8) {
-						setValue(row, col, val);
-						solveReturn = solve(row + 1, 0);
-					} else {
-						setValue(row, col, val);
-						solved=true;
+					setValue(row, col, val);
+					if (solve(col == 8 ? row + 1 : row, (col + 1) % 9)) {
 						return true;
-					}
-				} else {
-					if (val == 9) {
+					} else {
 						setValue(row, col, 0);
-						solveReturn = false;
 					}
 				}
 			}
 		}
-		return solveReturn;
+		return false;
+	}
+
+	private boolean validSudoku(int row, int col) {
+		if (row < 9) {
+			int v = getValue(row, col);
+			if (v != 0) {
+				setValue(row, col, 0);
+				if (!valid(row, col, v)) {
+					setValue(row, col, 0);
+					return false;
+				}
+				setValue(row, col, v);
+				validSudoku(col == 8 ? row + 1 : row, (col + 1) % 9);
+			} else {
+				validSudoku(col == 8 ? row + 1 : row, (col + 1) % 9);
+			}
+		}
+		return true;
 	}
 
 	private boolean valid(int i, int j, int value) {
@@ -158,7 +169,7 @@ public class Sudoku {
 		for (int r = 0; r < 9; r++) {
 			set[1][r] = board[r][col];
 		}
-		
+
 		// Get the box array
 		for (int r = 0; r < 3; r++) {
 			for (int c = 0; c < 3; c++) {
@@ -169,5 +180,55 @@ public class Sudoku {
 		return set;
 
 	}
+	
+//	private boolean solve(int row, int col) {
+//	// System.out.println(counter);
+//	// counter++;
+//	// if (counter == 65) {
+//	// System.out.println("Finally...");
+//	// }
+//
+//	boolean solveReturn = false;
+//
+//	int v = getValue(row, col);
+//	if (v != 0) {
+//		setValue(row, col, 0);
+//		if (valid(row, col, v)) {
+//			setValue(row, col, v);
+//			if (col < 8) {
+//				solveReturn = solve(row, col + 1);
+//			} else if (row < 8) {
+//				solveReturn = solve(row + 1, 0);
+//			} else {
+//				solved = true;
+//				return true;
+//			}
+//		} else {
+//			solved = true;
+//			solveReturn = false;
+//		}
+//	} else {
+//		for (int val = 1; val <= 9; val++) {
+//			if (solved == true)
+//				break;
+//			if (valid(row, col, val)) {
+//				if (col < 8) {
+//					setValue(row, col, val);
+//					solveReturn = solve(row, col + 1);
+//				} else if (row < 8) {
+//					setValue(row, col, val);
+//					solveReturn = solve(row + 1, 0);
+//				} else {
+//					setValue(row, col, val);
+//					solved = true;
+//					return true;
+//				}
+//			}
+//			if (solved == false)
+//				setValue(row, col, 0);
+//		}
+//	}
+//	return solveReturn;
+//}
 
 }
