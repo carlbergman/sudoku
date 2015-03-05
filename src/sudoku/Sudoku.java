@@ -3,18 +3,10 @@ package sudoku;
 public class Sudoku {
 	int[][] board;
 	int counter = 0;
-	boolean solved=false;
+	boolean solved = false;
 
 	public Sudoku() {
 		this.board = new int[9][9];
-		setValue(0,0,1);
-		setValue(0,1,2);
-		setValue(0,2,3);
-		setValue(1,0,4);
-		setValue(1,1,5);
-		setValue(1,2,6);
-		setValue(2,3,7);
-		 
 	}
 
 	/**
@@ -32,8 +24,9 @@ public class Sudoku {
 		if (value >= 0 && value <= 9) {
 			board[i][j] = value;
 			return true;
-		} else
+		} else {
 			return false;
+		}
 	}
 
 	/**
@@ -69,11 +62,11 @@ public class Sudoku {
 	}
 
 	private boolean solve(int row, int col) {
-//		System.out.println(counter);
-//		counter++;
-//		if(counter==200){
-//			System.out.println("Finally...");
-//		}
+		// System.out.println(counter);
+		// counter++;
+		// if(counter==200){
+		// System.out.println("Finally...");
+		// }
 		boolean solveReturn = false;
 
 		int v = getValue(row, col);
@@ -86,16 +79,16 @@ public class Sudoku {
 				} else if (row < 8) {
 					solveReturn = solve(row + 1, 0);
 				} else {
-					solved=true;
+					solved = true;
 					return true;
 				}
 			} else {
-				solved=true;
+				solved = true;
 				return false;
 			}
 		} else {
 			for (int val = 1; val <= 9; val++) {
-				if(solved==true)
+				if (solved == true)
 					break;
 				if (valid(row, col, val)) {
 					if (col < 8) {
@@ -106,7 +99,7 @@ public class Sudoku {
 						solveReturn = solve(row + 1, 0);
 					} else {
 						setValue(row, col, val);
-						solved=true;
+						solved = true;
 						return true;
 					}
 				} else {
@@ -158,7 +151,7 @@ public class Sudoku {
 		for (int r = 0; r < 9; r++) {
 			set[1][r] = board[r][col];
 		}
-		
+
 		// Get the box array
 		for (int r = 0; r < 3; r++) {
 			for (int c = 0; c < 3; c++) {
