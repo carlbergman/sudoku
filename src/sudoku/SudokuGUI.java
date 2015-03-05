@@ -9,12 +9,14 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class SudokuGUI extends JFrame {
 	private Sudoku s;
 	JPanel[][] boxes;
 	JTextField[][] board;
+	JTextArea message;
 
 	public SudokuGUI(Sudoku s) {
 
@@ -26,6 +28,7 @@ public class SudokuGUI extends JFrame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel contentArea = new JPanel(new GridLayout(3, 3));
+		JPanel messageArea = new JPanel();
 		JPanel buttonArea = new JPanel();
 
 		boxes = new JPanel[3][3];
@@ -60,10 +63,17 @@ public class SudokuGUI extends JFrame {
 		solve.addActionListener(new SolveButtonListener());
 
 		frame.add(contentArea, BorderLayout.NORTH);
+		frame.add(messageArea, BorderLayout.CENTER);
 		frame.add(buttonArea, BorderLayout.SOUTH);
+
+		message = new JTextArea();
+		messageArea.add(message);
+
 		buttonArea.add(clear);
 		buttonArea.add(solve);
 
+		frame.setBackground(Color.white);
+		
 		frame.pack();
 		frame.setVisible(true);
 	}
@@ -79,7 +89,6 @@ public class SudokuGUI extends JFrame {
 
 	private class ClearButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("Clear");
 			for (int r = 0; r < 9; r++) {
 				for (int c = 0; c < 9; c++) {
 
@@ -90,6 +99,7 @@ public class SudokuGUI extends JFrame {
 					s.setValue(r, c, 0);
 				}
 			}
+			message.setText("");
 
 		}
 	}
@@ -115,15 +125,15 @@ public class SudokuGUI extends JFrame {
 
 			// Solve
 			if (s.solve()) {
-				System.out.println("Sudoku lšstes.");
-			} else {
-				System.out.println("Sudoku kan ej lšsas.");
-			}
-			
-			for (int r = 0; r < 9; r++) {
-				for (int c = 0; c < 9; c++) {
-					board[r][c].setText(Integer.toString(s.getValue(r, c)));
+				message.setText("Sudoku lšstes.");
+
+				for (int r = 0; r < 9; r++) {
+					for (int c = 0; c < 9; c++) {
+						board[r][c].setText(Integer.toString(s.getValue(r, c)));
+					}
 				}
+			} else {
+				message.setText("Sudoku kan ej lšsas.");
 			}
 		}
 	}
