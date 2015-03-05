@@ -7,20 +7,14 @@ public class Sudoku {
 
 	public Sudoku() {
 		this.board = new int[9][9];
-
-		 setValue(0, 0, 1);
-		 setValue(0, 1, 2);
-		 setValue(0, 2, 3);
-		 setValue(1, 0, 5);
-		 //setValue(1, 1, 5);
-		 setValue(1, 2, 6);
-		 setValue(2, 0, 7);
-		 setValue(2, 1, 8);
-		 setValue(2, 2, 9);
-		 setValue(0, 3, 1);
-		 setValue(0, 3, 4);
-		 setValue(7, 0, 8);
-		 setValue(8, 2, 9);
+		setValue(0,0,1);
+		setValue(0,1,2);
+		setValue(0,2,3);
+		setValue(1,0,4);
+		setValue(1,1,5);
+		setValue(1,2,6);
+		setValue(2,3,7);
+		 
 	}
 
 	/**
@@ -75,8 +69,8 @@ public class Sudoku {
 	}
 
 	private boolean solve(int row, int col) {
-		System.out.println(counter);
-		counter++;
+//		System.out.println(counter);
+//		counter++;
 //		if(counter==200){
 //			System.out.println("Finally...");
 //		}
@@ -93,7 +87,7 @@ public class Sudoku {
 					solveReturn = solve(row + 1, 0);
 				} else {
 					solved=true;
-					solveReturn = true;
+					return true;
 				}
 			} else {
 				solved=true;
@@ -133,36 +127,22 @@ public class Sudoku {
 
 		int[][] set = getSetToCheck(i, j, value);
 
-		// System.out.print("Row: ");
 		for (int val : set[0]) {
 			if (val == value)
 				return false;
-			// System.out.print(set[0][a] + " ");
 		}
-		// System.out.print("\n");
-
-		// System.out.print("Col: ");
 		for (int val : set[1]) {
 			if (val == value)
 				return false;
-			// System.out.print(set[1][a] + " ");
 		}
-		// System.out.print("\n");
-
-		// System.out.print("Box: ");
 		for (int val : set[2]) {
 			if (val == value)
 				return false;
-			// System.out.print(set[2][a] + " ");
 		}
-		// System.out.print("\n");
-
 		return true;
 	}
 
 	private int[][] getSetToCheck(int row, int col, int value) {
-
-		// System.out.println(row + ", " + col);
 
 		int[][] set = new int[3][9];
 		set[0] = new int[9];
@@ -170,15 +150,15 @@ public class Sudoku {
 		set[2] = new int[9];
 
 		// Get the row array
-		for (int c = 0; c < 8; c++) {
+		for (int c = 0; c < 9; c++) {
 			set[0][c] = board[row][c];
 		}
 
 		// Get the column array
-		for (int r = 0; r < 8; r++) {
+		for (int r = 0; r < 9; r++) {
 			set[1][r] = board[r][col];
 		}
-
+		
 		// Get the box array
 		for (int r = 0; r < 3; r++) {
 			for (int c = 0; c < 3; c++) {
