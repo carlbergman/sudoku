@@ -4,72 +4,39 @@ public class Sudoku {
 	int[][] board;
 	int counter = 0;
 
-	// boolean solved = false;
-
 	public Sudoku() {
 		this.board = new int[9][9];
-//		setValue(0, 2, 8);
-//		setValue(0, 5, 9);
-//		setValue(0, 7, 6);
-//		setValue(0, 8, 2);
-//		setValue(1, 8, 5);
-//		setValue(2, 0, 1);
-//		setValue(2, 2, 2);
-//		setValue(2, 3, 5);
-//		setValue(3, 3, 2);
-//		setValue(3, 4, 1);
-//		setValue(3, 7, 9);
-//		setValue(4, 1, 5);
-//		setValue(4, 6, 6);
-//		setValue(5, 0, 6);
-//		setValue(5, 7, 2);
-//		setValue(5, 8, 8);
-//		setValue(6, 0, 4);
-//		setValue(6, 1, 1);
-//		setValue(6, 3, 6);
-//		setValue(6, 5, 8);
-//		setValue(7, 0, 8);
-//		setValue(7, 1, 6);
-//		setValue(7, 4, 3);
-//		setValue(7, 6, 1);
-//		setValue(8, 6, 4);
-
 	}
 
 	/**
-	 * Sets the value of cell i,j
+	 * Sets the value of cell row,col.
 	 * 
-	 * @param i
-	 *            row
-	 * @param j
-	 *            col
-	 * @param value
-	 *            to set
-	 * @return
+	 * @param sudoku row row
+	 * @param sudoku column col
+	 * @param value to set
+	 * @return true if value was set
 	 */
-	public boolean setValue(int i, int j, int value) {
+	public boolean setValue(int row, int col, int value) {
 		if (value >= 0 && value <= 9) {
-			board[i][j] = value;
+			board[row][col] = value;
 			return true;
 		} else
 			return false;
 	}
 
 	/**
-	 * Gets the value in a cell at position i,j
+	 * Gets the value in a cell at position row,col.
 	 * 
-	 * @param i
-	 *            row
-	 * @param j
-	 *            col
+	 * @param sudoku row row
+	 * @param sudoku column col
 	 * @return value in cell
 	 */
-	public int getValue(int i, int j) {
-		return board[i][j];
+	public int getValue(int row, int col) {
+		return board[row][col];
 	}
 
 	/**
-	 * String representation of the class
+	 * String representation of the class.
 	 */
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -82,7 +49,10 @@ public class Sudoku {
 		}
 		return sb.toString();
 	}
-
+	/**
+	 * Solves the sudoku with recursion.
+	 * @return true if sudoku was solved.
+	 */
 	public boolean solve() {
 		// Check valid sudoku
 		if (!validSudoku(0, 0))
@@ -118,11 +88,11 @@ public class Sudoku {
 		if (row == 9) {
 			return true;
 		}
-		int v = getValue(row, col);
-		if (v != 0) {
+		int value = getValue(row, col);
+		if (value != 0) {
 			setValue(row, col, 0);
-			if (valid(row, col, v)) {
-				setValue(row, col, v);
+			if (valid(row, col, value)) {
+				setValue(row, col, value);
 				if (validSudoku(col == 8 ? row + 1 : row, (col + 1) % 9)) {
 					return true;
 				}
@@ -135,12 +105,12 @@ public class Sudoku {
 		return false;
 	}
 
-	private boolean valid(int i, int j, int value) {
+	private boolean valid(int row, int col, int value) {
 		// Can always set value to zero
 		if (value == 0)
 			return true;
 
-		int[][] set = getSetToCheck(i, j, value);
+		int[][] set = getSetToCheck(row, col, value);
 
 		for (int val : set[0]) {
 			if (val == value)
@@ -158,7 +128,6 @@ public class Sudoku {
 	}
 
 	private int[][] getSetToCheck(int row, int col, int value) {
-
 		int[][] set = new int[3][9];
 		set[0] = new int[9];
 		set[1] = new int[9];
@@ -180,59 +149,6 @@ public class Sudoku {
 				set[2][c + r * 3] = board[3 * (row / 3) + r][3 * (col / 3) + c];
 			}
 		}
-
 		return set;
-
 	}
-
-//	private boolean solve(int row, int col) {
-//		// System.out.println(counter);
-//		// counter++;
-//		// if (counter == 65) {
-//		// System.out.println("Finally...");
-//		// }
-//
-//		boolean solveReturn = false;
-//
-//		int v = getValue(row, col);
-//		if (v != 0) {
-//			setValue(row, col, 0);
-//			if (valid(row, col, v)) {
-//				setValue(row, col, v);
-//				if (col < 8) {
-//					solveReturn = solve(row, col + 1);
-//				} else if (row < 8) {
-//					solveReturn = solve(row + 1, 0);
-//				} else {
-//					solved = true;
-//					return true;
-//				}
-//			} else {
-//				solved = true;
-//				solveReturn = false;
-//			}
-//		} else {
-//			for (int val = 1; val <= 9; val++) {
-//				if (solved == true)
-//					break;
-//				if (valid(row, col, val)) {
-//					if (col < 8) {
-//						setValue(row, col, val);
-//						solveReturn = solve(row, col + 1);
-//					} else if (row < 8) {
-//						setValue(row, col, val);
-//						solveReturn = solve(row + 1, 0);
-//					} else {
-//						setValue(row, col, val);
-//						solved = true;
-//						return true;
-//					}
-//				}
-//				if (solved == false)
-//					setValue(row, col, 0);
-//			}
-//		}
-//		return solveReturn;
-//	}
-
 }
