@@ -14,12 +14,11 @@ import javax.swing.JTextField;
 
 public class SudokuGUI extends JFrame {
 	private Sudoku s;
-	JPanel[][] boxes;
-	JTextField[][] board;
-	JTextArea message;
+	private JPanel[][] boxes;
+	private JTextField[][] board;
+	private JTextArea message;
 
 	public SudokuGUI(Sudoku s) {
-
 		super("Sudoku");
 
 		this.s = s;
@@ -105,27 +104,31 @@ public class SudokuGUI extends JFrame {
 	}
 
 	private class SolveButtonListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e){
 
 			for (int r = 0; r < 9; r++) {
 				for (int c = 0; c < 9; c++) {
 
 					// Get the integer in a field
-					int i;
+					int i=0;
 					try {
 						i = Integer.parseInt(board[r][c].getText());
 					} catch (NumberFormatException exc) {
-						continue;
+						if(!board[r][c].getText().equals("")){
+							message.setText("Sudoku can't be solved.");
+							return;
+						}
 					}
-
+					System.out.println(i);
 					// Set the model value
+					
 					s.setValue(r, c, i);
 				}
 			}
 
 			// Solve
 			if (s.solve()) {
-				message.setText("Sudoku lšstes.");
+				message.setText("Sudoku solved.");
 
 				for (int r = 0; r < 9; r++) {
 					for (int c = 0; c < 9; c++) {
@@ -133,7 +136,7 @@ public class SudokuGUI extends JFrame {
 					}
 				}
 			} else {
-				message.setText("Sudoku kan ej lšsas.");
+				message.setText("Sudoku can not be solved.");
 			}
 		}
 	}

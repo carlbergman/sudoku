@@ -1,8 +1,7 @@
 package sudoku;
 
 public class Sudoku {
-	int[][] board;
-	int counter = 0;
+	private int[][] board;
 
 	public Sudoku() {
 		this.board = new int[9][9];
